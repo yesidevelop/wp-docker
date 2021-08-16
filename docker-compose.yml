@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+  mysql:
+    image: mysql:5.7.22
+    container_name: mysql
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - mysqldata:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: wpmysql
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: wppassword
+      MYSQL_ROOT_PASSWORD: wprootpassword
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    ports:
+      - 3307:3306
+
+#Lets Make data of MySQL Persistent
+
+volumes:
+  mysqldata:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /mnt/data/mysqldata # We have to create this directory. MySQL Data will save here
